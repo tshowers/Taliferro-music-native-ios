@@ -1,0 +1,151 @@
+import AVFoundation
+import MediaPlayer
+
+@MainActor
+final class AudioPlayerService: NSObject, ObservableObject {
+    @Published private(set) var isPlaying = false
+    @Published private(set) var status = "Idle"
+
+    private var player: AVPlayer?
+    private var itemStatusObserver: NSKeyValueObservation?
+    private var timeControlObserver: NSKeyValueObservation?
+    private var interruptionObserver: NSObjectProtocol?
+
+    override init() {
+        super.init()
+        configureAudioSession()
+        configureRemoteCommands()
+        observeInterruptions()
+    }
+
+    func play(url: URL) {
+        teardownPlayer()
+
+        let item = AVPlayerItem(url: url)
+        let newPlayer = AVPlayer(playerItem: item)
+        player = newPlayer
+        status = "Buffering"
+
+        itemStatusObserver = item.observe(\.status, options: [.new]) { [weak self] item, _ in
+            Task { @MainActor in
+                guard let self, self.player === newPlayer else { return }
+                if item.status == .failed {
+                    self.status = "Stream error"
+                }
+            }
+        }
+
+        timeControlObserver = newPlayer.observe(\.timeControlStatus, options: [.new]) { [weak self] player, _ in
+            Task { @MainActor in
+                guard let self, self.player === newPlayer else { return }
+                switch player.timeControlStatus {
+                case .playing:
+                    self.isPlaying = true
+                    self.status = "Playing"
+                case .paused:
+                    self.isPlaying = false
+                    self.status = "Paused"
+                case .waitingToPlayAtSpecifiedRate:
+                    self.status = "Buffering"
+                @unknown default:
+                    break
+                }
+            }
+        }
+
+        newPlayer.play()
+    }
+
+    func play() {
+        player?.play()
+    }
+
+    func pause() {
+        player?.pause()
+    }
+
+    func togglePlayPause() {
+        isPlaying ? pause() : play()
+    }
+
+    func updateNowPlayingInfo(title: String, artist: String, artwork: MPMediaItemArtwork?, elapsed: Double, duration: Double) {
+        var info: [String: Any] = [
+            MPMediaItemPropertyTitle: title,
+            MPMediaItemPropertyArtist: artist,
+            MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? 1.0 : 0.0,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: elapsed,
+            MPMediaItemPropertyPlaybackDuration: duration,
+            MPNowPlayingInfoPropertyIsLiveStream: duration == 0
+        ]
+        if let artwork {
+            info[MPMediaItemPropertyArtwork] = artwork
+        }
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    private func configureAudioSession() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default)
+            try session.setActive(true)
+        } catch {
+            status = "Audio session error"
+        }
+    }
+
+    private func configureRemoteCommands() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget { [weak self] _ in
+            self?.play()
+            return .success
+        }
+        commandCenter.pauseCommand.addTarget { [weak self] _ in
+            self?.pause()
+            return .success
+        }
+        commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
+            self?.togglePlayPause()
+            return .success
+        }
+    }
+
+    private func observeInterruptions() {
+        interruptionObserver = NotificationCenter.default.addObserver(
+            forName: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance(),
+            queue: .main
+        ) { [weak self] notification in
+            guard let self,
+                  let info = notification.userInfo,
+                  let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+
+            switch type {
+            case .began:
+                break // AVPlayer already pauses automatically when interrupted.
+            case .ended:
+                let optionsValue = info[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+                if AVAudioSession.InterruptionOptions(rawValue: optionsValue).contains(.shouldResume) {
+                    self.play()
+                }
+            @unknown default:
+                break
+            }
+        }
+    }
+
+    private func teardownPlayer() {
+        itemStatusObserver?.invalidate()
+        timeControlObserver?.invalidate()
+        player?.pause()
+        player = nil
+    }
+
+    deinit {
+        itemStatusObserver?.invalidate()
+        timeControlObserver?.invalidate()
+        if let interruptionObserver {
+            NotificationCenter.default.removeObserver(interruptionObserver)
+        }
+    }
+}

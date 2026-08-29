@@ -1,0 +1,35 @@
+name: TaliferroMusic
+options:
+  minimumXcodeGenVersion: 2.38.0
+configs:
+  Debug: debug
+  Release: release
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: tech.taliferro.musicradio
+    IPHONEOS_DEPLOYMENT_TARGET: 17.0
+    SWIFT_VERSION: 5.0
+targets:
+  TaliferroMusic:
+    type: application
+    platform: iOS
+    sources:
+      - path: TaliferroMusic
+    settings:
+      base:
+        PRODUCT_NAME: TaliferroMusic
+        INFOPLIST_KEY_CFBundleDisplayName: Taliferro Music
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_LSRequiresIPhoneOS: true
+        GENERATE_INFOPLIST_FILE: true
+        TARGETED_DEVICE_FAMILY: "1,2"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        INFOPLIST_KEY_UIBackgroundModes: [audio]
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        INFOPLIST_KEY_RADIO_API_BASE_URL: $(RADIO_API_BASE_URL)
+        RADIO_API_BASE_URL: https://radio.taliferro.com
+        DEVELOPMENT_TEAM: "6377FLHLAG"
+    scheme:
+      testTargets: []
