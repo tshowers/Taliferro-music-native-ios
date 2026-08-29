@@ -1,4 +1,4 @@
-# Taliferro Music (iOS)
+![Taliferro Music iOS](docs/taliferro-music-ios-banner.png)
 
 Native SwiftUI client for [Taliferro Music Radio](https://music.taliferro.com) —
 plays the live HLS stream from the
