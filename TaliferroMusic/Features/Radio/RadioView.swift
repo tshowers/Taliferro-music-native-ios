@@ -3,6 +3,7 @@ import SwiftUI
 struct RadioView: View {
     @StateObject private var viewModel: RadioViewModel
     @State private var isSharePresented = false
+    @State private var isMenuPresented = false
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     init(apiClient: RadioAPIClient, player: AudioPlayerService) {
@@ -24,6 +25,9 @@ struct RadioView: View {
         .sheet(isPresented: $isSharePresented) {
             ShareSheet(items: [viewModel.shareURL])
         }
+        .sheet(isPresented: $isMenuPresented) {
+            StationMenuView()
+        }
     }
 
     private var portraitLayout: some View {
@@ -31,7 +35,7 @@ struct RadioView: View {
             VStack(alignment: .leading, spacing: 20) {
                 header
                 listenNowCard
-                featuredCard
+                recentlyPlayedCard
                 footer
             }
             .padding(20)
@@ -52,7 +56,7 @@ struct RadioView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    featuredCard
+                    recentlyPlayedCard
                 }
                 .padding(20)
             }
@@ -75,15 +79,28 @@ struct RadioView: View {
                     .padding(.top, 2)
             }
             Spacer()
-            Button {
-                isSharePresented = true
-            } label: {
-                Text("Copy link")
-                    .font(.footnote.weight(.medium))
-                    .foregroundStyle(Theme.text)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(Capsule().stroke(Theme.divider, lineWidth: 1))
+            VStack(alignment: .trailing, spacing: 8) {
+                Button {
+                    isMenuPresented = true
+                } label: {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Theme.text)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().stroke(Theme.divider, lineWidth: 1))
+                }
+                .accessibilityLabel("Menu")
+
+                Button {
+                    isSharePresented = true
+                } label: {
+                    Text("Copy link")
+                        .font(.footnote.weight(.medium))
+                        .foregroundStyle(Theme.text)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(Capsule().stroke(Theme.divider, lineWidth: 1))
+                }
             }
         }
     }
@@ -176,7 +193,9 @@ struct RadioView: View {
                         .lineLimit(1)
                 }
 
-                Spacer()
+                Spacer(minLength: 8)
+
+                sleepTimerMenu
             }
 
             GeometryReader { proxy in
@@ -188,7 +207,55 @@ struct RadioView: View {
                 }
             }
             .frame(height: 3)
+
+            if let count = viewModel.listenerCount {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(Theme.accent)
+                        .frame(width: 6, height: 6)
+                    Text("\(count) people are listening now")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(Theme.muted)
+                }
+                .padding(.top, 2)
+            }
         }
+    }
+
+    private var sleepTimerMenu: some View {
+        let isActive = viewModel.sleepRemaining != nil
+        return Menu {
+            Section("Stop playback after") {
+                ForEach(RadioViewModel.sleepOptions, id: \.self) { minutes in
+                    Button {
+                        viewModel.setSleepTimer(minutes: minutes)
+                    } label: {
+                        if viewModel.sleepMinutes == minutes {
+                            Label("\(minutes) minutes", systemImage: "checkmark")
+                        } else {
+                            Text("\(minutes) minutes")
+                        }
+                    }
+                }
+            }
+            if isActive {
+                Button("Turn Off Sleep Timer", role: .destructive) {
+                    viewModel.setSleepTimer(minutes: nil)
+                }
+            }
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "moon")
+                Text(viewModel.sleepRemaining ?? "Sleep")
+                    .monospacedDigit()
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(isActive ? Theme.accent : Theme.muted)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(Capsule().stroke(isActive ? Theme.accent.opacity(0.45) : Theme.divider, lineWidth: 1))
+        }
+        .accessibilityLabel(isActive ? "Sleep timer, stops in \(viewModel.sleepRemaining ?? "")" : "Sleep timer")
     }
 
     private var artworkView: some View {
@@ -201,55 +268,78 @@ struct RadioView: View {
         }
     }
 
-    private var featuredCard: some View {
+    private var recentlyPlayedCard: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("FEATURED")
+            Text("RECENTLY PLAYED")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.muted)
 
-            VStack(alignment: .leading, spacing: 0) {
-                ForEach(Array(FeaturedArtists.all.enumerated()), id: \.element.id) { index, artist in
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(artist.name)
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(Theme.text)
-                        Text(artist.genres)
-                            .font(.caption)
-                            .foregroundStyle(Theme.muted)
-                        HStack(spacing: 14) {
-                            ForEach(artist.links) { link in
-                                Link(link.label, destination: link.url)
-                                    .font(.caption.weight(.medium))
-                                    .foregroundStyle(Theme.accent)
-                            }
-                        }
-                        .padding(.top, 2)
-                    }
-                    .padding(.vertical, 12)
+            if viewModel.recentTracks.isEmpty {
+                Text("Songs show up here as they finish playing.")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.muted)
+            } else {
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(Array(viewModel.recentTracks.enumerated()), id: \.element.id) { index, item in
+                        recentRow(item)
+                            .padding(.vertical, 10)
 
-                    if index < FeaturedArtists.all.count - 1 {
-                        Divider().background(Theme.divider)
+                        if index < viewModel.recentTracks.count - 1 {
+                            Divider().background(Theme.divider)
+                        }
                     }
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
         .background(RoundedRectangle(cornerRadius: 16).fill(Theme.surface))
     }
 
-    private var footer: some View {
-        HStack {
-            Text(verbatim: "© \(currentYear) Taliferro Music")
-                .font(.caption2)
-                .foregroundStyle(Theme.muted)
-            Spacer()
-            NavigationLink("About") {
-                AboutView()
+    private func recentRow(_ item: RecentTrack) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            AsyncImage(url: item.artUrl.flatMap(URL.init(string:))) { image in
+                image.resizable().scaledToFill()
+            } placeholder: {
+                Rectangle().fill(Theme.surfaceAlt)
             }
+            .frame(width: 40, height: 40)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(item.track)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.text)
+                        .lineLimit(1)
+                    Spacer(minLength: 8)
+                    if let date = item.startedAtDate {
+                        Text(date, format: .dateTime.hour().minute())
+                            .font(.caption)
+                            .monospacedDigit()
+                            .foregroundStyle(Theme.faint)
+                    }
+                }
+                HStack(spacing: 12) {
+                    Text(item.artist)
+                        .font(.caption)
+                        .foregroundStyle(Theme.muted)
+                        .lineLimit(1)
+                    ForEach(FeaturedArtists.links(for: item.artist)) { link in
+                        Link(link.label, destination: link.url)
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(Theme.accent)
+                    }
+                }
+            }
+        }
+    }
+
+    private var footer: some View {
+        Text(verbatim: "© \(currentYear) Taliferro Music")
             .font(.caption2)
             .foregroundStyle(Theme.muted)
-        }
-        .padding(.top, 4)
+            .padding(.top, 4)
     }
 
     private var currentYear: Int {

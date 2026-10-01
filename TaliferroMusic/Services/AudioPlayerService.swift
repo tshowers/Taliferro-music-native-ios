@@ -68,6 +68,22 @@ final class AudioPlayerService: NSObject, ObservableObject {
         isPlaying ? pause() : play()
     }
 
+    /// Sleep timer ending: ramp the volume down, pause, then restore the volume
+    /// so the next play starts at normal level.
+    func fadeOutAndPause(over seconds: Double = 6) {
+        guard let player, isPlaying else { return }
+        let steps = 20
+        Task { @MainActor in
+            for step in 1...steps {
+                try? await Task.sleep(nanoseconds: UInt64(seconds / Double(steps) * 1_000_000_000))
+                guard self.player === player else { return }
+                player.volume = 1 - Float(step) / Float(steps)
+            }
+            player.pause()
+            player.volume = 1
+        }
+    }
+
     func updateNowPlayingInfo(title: String, artist: String, artwork: MPMediaItemArtwork?, elapsed: Double, duration: Double) {
         var info: [String: Any] = [
             MPMediaItemPropertyTitle: title,
@@ -96,15 +112,15 @@ final class AudioPlayerService: NSObject, ObservableObject {
     private func configureRemoteCommands() {
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.playCommand.addTarget { [weak self] _ in
-            self?.play()
+            Task { @MainActor in self?.play() }
             return .success
         }
         commandCenter.pauseCommand.addTarget { [weak self] _ in
-            self?.pause()
+            Task { @MainActor in self?.pause() }
             return .success
         }
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
-            self?.togglePlayPause()
+            Task { @MainActor in self?.togglePlayPause() }
             return .success
         }
     }
@@ -126,7 +142,7 @@ final class AudioPlayerService: NSObject, ObservableObject {
             case .ended:
                 let optionsValue = info[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
                 if AVAudioSession.InterruptionOptions(rawValue: optionsValue).contains(.shouldResume) {
-                    self.play()
+                    Task { @MainActor in self.play() }
                 }
             @unknown default:
                 break

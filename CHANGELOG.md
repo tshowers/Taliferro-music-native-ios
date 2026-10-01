@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## 1.1 (build 3) — 2026-10-01
+
+Feature parity with the web player.
+
+### Added
+- Recently played replaces Featured on the main screen: the last 10 tracks on the current mood, with art, start time, and Apple Music/Spotify/Bandcamp links for featured artists. Refreshes when the track changes (`GET /recently-played/<channel>`).
+- Listener count ("12 people are listening now") under the progress bar, station-wide, shown only at 8 or more (`GET /listeners`, polled every 30s).
+- Sleep timer: stop after 15, 30, 45, or 60 minutes, with a countdown on the button and a ~6s fade-out. Keeps running with the screen locked via the existing background-audio mode.
+- Menu sheet (header button) holding Featured artists and About, matching the web player's menu.
+
+### Changed
+- About moved from the footer into the menu.
+- `project.yml` now carries `MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`, the upside-down portrait orientation, and `xcodeVersion`, which had only been set in the checked-in Xcode project, so `xcodegen generate` no longer drops them.
+- Remote-command and interruption handlers hop to the main actor before touching the player (1.0.1).
+
 ## 2026-08-29
 
 ### Added

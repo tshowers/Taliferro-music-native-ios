@@ -13,6 +13,13 @@ final class RadioViewModel: ObservableObject {
     @Published private(set) var progress: Double = 0
     @Published private(set) var status = "Idle"
     @Published private(set) var isPlaying = false
+    @Published private(set) var recentTracks: [RecentTrack] = []
+    /// Station-wide listener count, nil until it reaches `listenerMinShown`.
+    @Published private(set) var listenerCount: Int?
+    @Published private(set) var sleepMinutes: Int?
+    @Published private(set) var sleepRemaining: String?
+
+    static let sleepOptions = [15, 30, 45, 60]
 
     private let apiClient: RadioAPIClient
     private let player: AudioPlayerService
@@ -25,6 +32,12 @@ final class RadioViewModel: ObservableObject {
     private var durationSec: Double = 0
     private var fetchedAt = Date()
     private var artworkCache: [String: UIImage] = [:]
+    private var lastTrackKey: String?
+    private var listenersTask: Task<Void, Never>?
+    private var sleepEndsAt: Date?
+
+    private let recentLimit = 10
+    private let listenerMinShown = 8
 
     private let fallbackChannels = ["Downtempo", "Groove", "Jazzy"].map { RadioChannel(name: $0) }
 
@@ -42,12 +55,22 @@ final class RadioViewModel: ObservableObject {
             .sink { [weak self] in self?.status = $0 }
             .store(in: &cancellables)
 
+        // Background audio keeps the app running while the stream plays, so this
+        // keeps ticking with the screen locked — which is what the sleep timer needs.
         progressTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            Task { @MainActor in self?.tickProgress() }
+            Task { @MainActor in
+                self?.tickProgress()
+                self?.tickSleep()
+            }
         }
     }
 
     func start() async {
+        listenersTask?.cancel()
+        listenersTask = Task { [weak self] in
+            await self?.pollListenersLoop()
+        }
+
         do {
             let fetched = try await apiClient.fetchChannels()
             channels = fetched.isEmpty ? fallbackChannels : fetched
@@ -71,6 +94,8 @@ final class RadioViewModel: ObservableObject {
         durationSec = 0
         fetchedAt = Date()
         progress = 0
+        lastTrackKey = nil
+        recentTracks = []
 
         player.play(url: apiClient.streamURL(forChannel: name))
 
@@ -86,6 +111,47 @@ final class RadioViewModel: ObservableObject {
 
     var shareURL: URL {
         URL(string: "https://music.taliferro.com")!
+    }
+
+    // MARK: Sleep timer
+
+    func setSleepTimer(minutes: Int?) {
+        sleepMinutes = minutes
+        sleepEndsAt = minutes.map { Date().addingTimeInterval(Double($0) * 60) }
+        tickSleep()
+    }
+
+    private func tickSleep() {
+        guard let sleepEndsAt else {
+            sleepRemaining = nil
+            return
+        }
+        let remaining = Int(sleepEndsAt.timeIntervalSinceNow.rounded(.up))
+        if remaining <= 0 {
+            setSleepTimer(minutes: nil)
+            player.fadeOutAndPause()
+            return
+        }
+        sleepRemaining = String(format: "%d:%02d", remaining / 60, remaining % 60)
+    }
+
+    // MARK: Recently played + listeners
+
+    private func refreshRecentlyPlayed(channel: String) async {
+        guard let tracks = try? await apiClient.fetchRecentlyPlayed(channel: channel, limit: recentLimit),
+              channel == currentChannel else { return }
+        recentTracks = tracks
+    }
+
+    private func pollListenersLoop() async {
+        while !Task.isCancelled {
+            if let total = try? await apiClient.fetchListenerCount() {
+                listenerCount = total >= listenerMinShown ? total : nil
+            } else {
+                listenerCount = nil
+            }
+            try? await Task.sleep(nanoseconds: 30_000_000_000)
+        }
     }
 
     private func pollNowPlayingLoop(channel: String) async {
@@ -107,6 +173,13 @@ final class RadioViewModel: ObservableObject {
 
             await loadArtwork(urlString: info.artUrl)
             publishNowPlayingInfo()
+
+            // A new track means the previous one just joined "recently played".
+            let trackKey = "\(channel)|\(track)|\(artist)"
+            if trackKey != lastTrackKey {
+                lastTrackKey = trackKey
+                await refreshRecentlyPlayed(channel: channel)
+            }
         } catch {
             // Keep the last known now-playing info; the stream's own status
             // reporting is what surfaces connectivity problems to the user.
@@ -153,6 +226,7 @@ final class RadioViewModel: ObservableObject {
 
     deinit {
         pollTask?.cancel()
+        listenersTask?.cancel()
         progressTimer?.invalidate()
     }
 }

@@ -17,6 +17,26 @@ struct NowPlaying: Codable {
     let trackDurationSec: Double?
 }
 
+struct RecentTrack: Codable, Identifiable {
+    var id: String { startedAt + track }
+    let track: String
+    let artist: String
+    let artUrl: String?
+    let startedAt: String
+
+    var startedAtDate: Date? {
+        try? Date.ISO8601FormatStyle(includingFractionalSeconds: true).parse(startedAt)
+    }
+}
+
+struct RecentlyPlayedResponse: Codable {
+    let tracks: [RecentTrack]
+}
+
+struct ListenersResponse: Codable {
+    let total: Int
+}
+
 struct FeaturedArtist: Identifiable {
     struct Link: Identifiable {
         var id: String { label }
@@ -71,4 +91,9 @@ enum FeaturedArtists {
             ]
         )
     ]
+
+    /// Links for a recently played track's artist, matched against the ID3 artist tag.
+    static func links(for artist: String) -> [FeaturedArtist.Link] {
+        all.first { $0.name.caseInsensitiveCompare(artist) == .orderedSame }?.links ?? []
+    }
 }

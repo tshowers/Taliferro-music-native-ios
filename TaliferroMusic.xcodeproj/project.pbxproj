@@ -7,34 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B645968A7C646B97A01F150 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678D5FD6A6C779B11EAF4F41 /* Theme.swift */; };
+		0961731B54FBE78FF430A5F8 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2775B5EDA7416C3269B028D /* AboutView.swift */; };
 		11FBA9EA7BF7074F26F97710 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F03B9658662626C93BE83574 /* Assets.xcassets */; };
-		840443EAD3D58D3741384EF0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 82F5511081378F7616B7C146 /* PrivacyInfo.xcprivacy */; };
 		1AA7FC289F9B20343C1E1B3C /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72254B112D9B3E977C7805 /* RadioView.swift */; };
 		260EC648601ADCFB08644E66 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D920A08DBB2EA6700096080 /* ShareSheet.swift */; };
 		3C7CB8E42DFC06BBDB9B1FA4 /* TaliferroMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8A49C50908DE557BEE3E2 /* TaliferroMusicApp.swift */; };
-		4DC4912ED25DE320B9D0A56A /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AF1EF245DA9583080C38EB /* AboutView.swift */; };
-		68D928011683719A1C6DCE6E /* AboutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE888BF40ADB0FD0F65A988 /* AboutModels.swift */; };
+		7D9CC3CA2B38802D97E73F89 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17559D2D2179A873B83E305B /* Theme.swift */; };
 		99BDDE983ED94F09BDCADF68 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1699DDB488DE7168CF1D01D7 /* AppConfig.swift */; };
 		9EB2BB39F402FBD111E0ACA7 /* AudioPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E232E1AA244EB52B6018D1 /* AudioPlayerService.swift */; };
 		C2B7E685F85589AE988480AD /* RadioModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78634E2C4DD783B8DFE55A5 /* RadioModels.swift */; };
+		D0754CA10EF3033E4E16A996 /* StationMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA90A1BD300EC4873910B32C /* StationMenuView.swift */; };
+		D48F997D6307B781249B2032 /* AboutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA439494CA420DEBBBFC5A57 /* AboutModels.swift */; };
+		D98C59FC9D3C196FF5B6B9EC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8EA64A9953DDC25AF49EA676 /* PrivacyInfo.xcprivacy */; };
 		EE9DA71625A8D5E9F65FA8E2 /* RadioAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E790E5B5E8987CD06F0A19 /* RadioAPIClient.swift */; };
 		F859F1C2BAE52DD4CC8DF730 /* RadioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AB332BA551FFD36AEFF8C9 /* RadioViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		678D5FD6A6C779B11EAF4F41 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		1699DDB488DE7168CF1D01D7 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
-		82F5511081378F7616B7C146 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		17559D2D2179A873B83E305B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		44AB332BA551FFD36AEFF8C9 /* RadioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioViewModel.swift; sourceTree = "<group>"; };
-		48AF1EF245DA9583080C38EB /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		63E232E1AA244EB52B6018D1 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
+		8EA64A9953DDC25AF49EA676 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		94E790E5B5E8987CD06F0A19 /* RadioAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioAPIClient.swift; sourceTree = "<group>"; };
 		9D920A08DBB2EA6700096080 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
-		9DE888BF40ADB0FD0F65A988 /* AboutModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutModels.swift; sourceTree = "<group>"; };
 		BBE8A49C50908DE557BEE3E2 /* TaliferroMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaliferroMusicApp.swift; sourceTree = "<group>"; };
 		C7F781634ADD6849F0EFAB01 /* TaliferroMusic.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TaliferroMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA90A1BD300EC4873910B32C /* StationMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationMenuView.swift; sourceTree = "<group>"; };
+		E2775B5EDA7416C3269B028D /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E78634E2C4DD783B8DFE55A5 /* RadioModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioModels.swift; sourceTree = "<group>"; };
+		EA439494CA420DEBBBFC5A57 /* AboutModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutModels.swift; sourceTree = "<group>"; };
 		F03B9658662626C93BE83574 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF72254B112D9B3E977C7805 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,7 +45,7 @@
 		00CA39106F4823472717F4BD /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				9986FB6C6A4A5D8426C178C4 /* About */,
+				93CD289998A6256E9D59F7D1 /* About */,
 				21B72FAD6467BEB62DA9FBE2 /* Radio */,
 			);
 			path = Features;
@@ -63,6 +65,7 @@
 				FF72254B112D9B3E977C7805 /* RadioView.swift */,
 				44AB332BA551FFD36AEFF8C9 /* RadioViewModel.swift */,
 				9D920A08DBB2EA6700096080 /* ShareSheet.swift */,
+				DA90A1BD300EC4873910B32C /* StationMenuView.swift */,
 			);
 			path = Radio;
 			sourceTree = "<group>";
@@ -75,6 +78,14 @@
 				94E790E5B5E8987CD06F0A19 /* RadioAPIClient.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		55D54575B3B08883284C031A /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				17559D2D2179A873B83E305B /* Theme.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		7A2D7931EF3D88FDE3F7BFFB /* Products */ = {
@@ -93,27 +104,19 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		9986FB6C6A4A5D8426C178C4 /* About */ = {
+		93CD289998A6256E9D59F7D1 /* About */ = {
 			isa = PBXGroup;
 			children = (
-				48AF1EF245DA9583080C38EB /* AboutView.swift */,
+				E2775B5EDA7416C3269B028D /* AboutView.swift */,
 			);
 			path = About;
-			sourceTree = "<group>";
-		};
-		BB5363C35322691D7DEB57B4 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				678D5FD6A6C779B11EAF4F41 /* Theme.swift */,
-			);
-			path = Support;
 			sourceTree = "<group>";
 		};
 		B0CF869ED830A100FA0324BF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				F03B9658662626C93BE83574 /* Assets.xcassets */,
-				82F5511081378F7616B7C146 /* PrivacyInfo.xcprivacy */,
+				8EA64A9953DDC25AF49EA676 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -121,7 +124,7 @@
 		E27C71EED38851884671F2D5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9DE888BF40ADB0FD0F65A988 /* AboutModels.swift */,
+				EA439494CA420DEBBBFC5A57 /* AboutModels.swift */,
 				E78634E2C4DD783B8DFE55A5 /* RadioModels.swift */,
 			);
 			path = Models;
@@ -135,7 +138,7 @@
 				E27C71EED38851884671F2D5 /* Models */,
 				B0CF869ED830A100FA0324BF /* Resources */,
 				39E8853117A72837841FAA95 /* Services */,
-				BB5363C35322691D7DEB57B4 /* Support */,
+				55D54575B3B08883284C031A /* Support */,
 			);
 			path = TaliferroMusic;
 			sourceTree = "<group>";
@@ -200,7 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11FBA9EA7BF7074F26F97710 /* Assets.xcassets in Resources */,
-				840443EAD3D58D3741384EF0 /* PrivacyInfo.xcprivacy in Resources */,
+				D98C59FC9D3C196FF5B6B9EC /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,9 +214,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B645968A7C646B97A01F150 /* Theme.swift in Sources */,
-				4DC4912ED25DE320B9D0A56A /* AboutView.swift in Sources */,
-				68D928011683719A1C6DCE6E /* AboutModels.swift in Sources */,
+				D48F997D6307B781249B2032 /* AboutModels.swift in Sources */,
+				0961731B54FBE78FF430A5F8 /* AboutView.swift in Sources */,
 				99BDDE983ED94F09BDCADF68 /* AppConfig.swift in Sources */,
 				9EB2BB39F402FBD111E0ACA7 /* AudioPlayerService.swift in Sources */,
 				EE9DA71625A8D5E9F65FA8E2 /* RadioAPIClient.swift in Sources */,
@@ -221,7 +223,9 @@
 				1AA7FC289F9B20343C1E1B3C /* RadioView.swift in Sources */,
 				F859F1C2BAE52DD4CC8DF730 /* RadioViewModel.swift in Sources */,
 				260EC648601ADCFB08644E66 /* ShareSheet.swift in Sources */,
+				D0754CA10EF3033E4E16A996 /* StationMenuView.swift in Sources */,
 				3C7CB8E42DFC06BBDB9B1FA4 /* TaliferroMusicApp.swift in Sources */,
+				7D9CC3CA2B38802D97E73F89 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +238,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 6377FLHLAG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Taliferro Music";
@@ -245,12 +249,17 @@
 					audio,
 				);
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = (
+					UIInterfaceOrientationPortrait,
+					UIInterfaceOrientationPortraitUpsideDown,
+					UIInterfaceOrientationLandscapeLeft,
+					UIInterfaceOrientationLandscapeRight,
+				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_NAME = TaliferroMusic;
 				RADIO_API_BASE_URL = "https://radio.taliferro.com";
 				SDKROOT = iphoneos;
@@ -385,7 +394,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 6377FLHLAG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Taliferro Music";
@@ -396,12 +405,17 @@
 					audio,
 				);
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = (
+					UIInterfaceOrientationPortrait,
+					UIInterfaceOrientationPortraitUpsideDown,
+					UIInterfaceOrientationLandscapeLeft,
+					UIInterfaceOrientationLandscapeRight,
+				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_NAME = TaliferroMusic;
 				RADIO_API_BASE_URL = "https://radio.taliferro.com";
 				SDKROOT = iphoneos;

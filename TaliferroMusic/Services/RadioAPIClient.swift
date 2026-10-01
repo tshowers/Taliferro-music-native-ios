@@ -35,12 +35,29 @@ final class RadioAPIClient {
         try await get(path: "now-playing/\(channel)")
     }
 
+    func fetchRecentlyPlayed(channel: String, limit: Int) async throws -> [RecentTrack] {
+        let response: RecentlyPlayedResponse = try await get(
+            path: "recently-played/\(channel)",
+            query: [URLQueryItem(name: "limit", value: String(limit))]
+        )
+        return response.tracks
+    }
+
+    func fetchListenerCount() async throws -> Int {
+        let response: ListenersResponse = try await get(path: "listeners")
+        return response.total
+    }
+
     func streamURL(forChannel channel: String) -> URL {
         config.apiBaseURL.appending(path: "hls/\(channel)/index.m3u8")
     }
 
-    private func get<Response: Decodable>(path: String) async throws -> Response {
-        var request = URLRequest(url: config.apiBaseURL.appending(path: path))
+    private func get<Response: Decodable>(path: String, query: [URLQueryItem] = []) async throws -> Response {
+        var url = config.apiBaseURL.appending(path: path)
+        if !query.isEmpty {
+            url.append(queryItems: query)
+        }
+        var request = URLRequest(url: url)
         request.cachePolicy = .reloadIgnoringLocalCacheData
 
         let (data, response) = try await URLSession.shared.data(for: request)
