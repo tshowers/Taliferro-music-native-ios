@@ -56,8 +56,16 @@ final class AudioPlayerService: NSObject, ObservableObject {
         newPlayer.play()
     }
 
+    /// Resuming a paused live stream would pick up where it stopped — up to the
+    /// playlist window (~2 min) behind the station, so the now-playing info runs
+    /// a song ahead of what's heard. Reconnecting starts at the live edge again.
     func play() {
-        player?.play()
+        guard let player, player.timeControlStatus == .paused,
+              let url = (player.currentItem?.asset as? AVURLAsset)?.url else {
+            player?.play()
+            return
+        }
+        play(url: url)
     }
 
     func pause() {

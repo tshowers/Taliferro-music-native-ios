@@ -20,6 +20,7 @@
 		D48F997D6307B781249B2032 /* AboutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA439494CA420DEBBBFC5A57 /* AboutModels.swift */; };
 		D98C59FC9D3C196FF5B6B9EC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8EA64A9953DDC25AF49EA676 /* PrivacyInfo.xcprivacy */; };
 		EE9DA71625A8D5E9F65FA8E2 /* RadioAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E790E5B5E8987CD06F0A19 /* RadioAPIClient.swift */; };
+		F015B8FC8E6355452DA43C39 /* AppReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBFB528C12233F5AF26A9C /* AppReview.swift */; };
 		F859F1C2BAE52DD4CC8DF730 /* RadioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AB332BA551FFD36AEFF8C9 /* RadioViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +28,9 @@
 		1699DDB488DE7168CF1D01D7 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		17559D2D2179A873B83E305B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		44AB332BA551FFD36AEFF8C9 /* RadioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioViewModel.swift; sourceTree = "<group>"; };
+		5A4F2FBAF147A0DFA1D4FA3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		63E232E1AA244EB52B6018D1 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
+		8CCBFB528C12233F5AF26A9C /* AppReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReview.swift; sourceTree = "<group>"; };
 		8EA64A9953DDC25AF49EA676 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		94E790E5B5E8987CD06F0A19 /* RadioAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioAPIClient.swift; sourceTree = "<group>"; };
 		9D920A08DBB2EA6700096080 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				1699DDB488DE7168CF1D01D7 /* AppConfig.swift */,
+				8CCBFB528C12233F5AF26A9C /* AppReview.swift */,
 				63E232E1AA244EB52B6018D1 /* AudioPlayerService.swift */,
 				94E790E5B5E8987CD06F0A19 /* RadioAPIClient.swift */,
 			);
@@ -83,6 +87,7 @@
 		55D54575B3B08883284C031A /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				5A4F2FBAF147A0DFA1D4FA3B /* Info.plist */,
 				17559D2D2179A873B83E305B /* Theme.swift */,
 			);
 			path = Support;
@@ -217,6 +222,7 @@
 				D48F997D6307B781249B2032 /* AboutModels.swift in Sources */,
 				0961731B54FBE78FF430A5F8 /* AboutView.swift in Sources */,
 				99BDDE983ED94F09BDCADF68 /* AppConfig.swift in Sources */,
+				F015B8FC8E6355452DA43C39 /* AppReview.swift in Sources */,
 				9EB2BB39F402FBD111E0ACA7 /* AudioPlayerService.swift in Sources */,
 				EE9DA71625A8D5E9F65FA8E2 /* RadioAPIClient.swift in Sources */,
 				C2B7E685F85589AE988480AD /* RadioModels.swift in Sources */,
@@ -238,16 +244,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 6377FLHLAG;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaliferroMusic/Support/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Taliferro Music";
 				INFOPLIST_KEY_LSRequiresIPhoneOS = YES;
-				INFOPLIST_KEY_RADIO_API_BASE_URL = "$(RADIO_API_BASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIBackgroundModes = (
-					audio,
-				);
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = (
 					UIInterfaceOrientationPortrait,
@@ -394,16 +397,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 6377FLHLAG;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaliferroMusic/Support/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Taliferro Music";
 				INFOPLIST_KEY_LSRequiresIPhoneOS = YES;
-				INFOPLIST_KEY_RADIO_API_BASE_URL = "$(RADIO_API_BASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIBackgroundModes = (
-					audio,
-				);
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = (
 					UIInterfaceOrientationPortrait,

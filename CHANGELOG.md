@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## Unreleased
+
+### Added
+- App Store rating prompt (`AppReview.swift`): after about 5 tracks that
+  started while playing, the app asks for a rating with Apple's built-in
+  prompt — only in the foreground, at most once per version; iOS itself caps
+  it at 3 times a year and never shows it in TestFlight.
+- Menu: "Rate Taliferro Music" opens the App Store review form any time.
+
 ## 1.1 (build 3) — 2026-10-01
 
 Feature parity with the web player.
