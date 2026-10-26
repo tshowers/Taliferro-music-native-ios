@@ -177,6 +177,11 @@ final class RadioViewModel: ObservableObject {
             // A new track means the previous one just joined "recently played".
             let trackKey = "\(channel)|\(track)|\(artist)"
             if trackKey != lastTrackKey {
+                // Tuning in lands mid-song, so only count tracks that started
+                // while playing. Asks for a rating after about 5.
+                if lastTrackKey != nil, isPlaying {
+                    AppReview.recordSuccess(threshold: 5)
+                }
                 lastTrackKey = trackKey
                 await refreshRecentlyPlayed(channel: channel)
             }

@@ -11,6 +11,7 @@ struct StationMenuView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     featuredCard
                     aboutLink
+                    rateLink
                 }
                 .padding(20)
             }
@@ -74,6 +75,24 @@ struct StationMenuView: View {
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.muted)
+            }
+            .padding(16)
+            .background(RoundedRectangle(cornerRadius: 16).fill(Theme.surface))
+        }
+    }
+
+    // Opens the App Store's review form, any time (AppReview also asks once
+    // after a few tracks).
+    private var rateLink: some View {
+        Link(destination: AppReview.writeReviewURL) {
+            HStack {
+                Text("Rate Taliferro Music")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.text)
+                Spacer()
+                Image(systemName: "star.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
             }
             .padding(16)
             .background(RoundedRectangle(cornerRadius: 16).fill(Theme.surface))
