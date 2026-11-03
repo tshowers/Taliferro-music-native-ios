@@ -2,7 +2,16 @@
 
 All notable changes to this project are documented here.
 
-## Unreleased
+## 1.2 (build 5) — 2026-10-26
+
+1.1 was already approved, so App Store Connect closed it to new builds.
+
+### Fixed
+- Music keeps playing with the screen locked: `UIBackgroundModes` now lives
+  in `TaliferroMusic/Support/Info.plist`, since it has no `INFOPLIST_KEY_`
+  build setting.
+- Pressing play after a pause rejoins the live stream instead of picking up
+  ~2 minutes behind, so now playing matches what's heard.
 
 ### Added
 - App Store rating prompt (`AppReview.swift`): after about 5 tracks that
